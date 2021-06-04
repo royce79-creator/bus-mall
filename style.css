@@ -1,5 +1,5 @@
 body {
-  background-color: lavender;
+  background-image: linear-gradient(rgb(56, 201, 233,0.5), rgb(223, 223, 53,0.5));
 }
 
 h1 {
@@ -19,13 +19,14 @@ section {
 }
 
 section img {
+  height: 300px;
   width: 300px;
   margin: 50px;
 
 }
 
 main div {
-  background-color: gold;
+  background-image: radial-gradient(rgb(87, 128, 199,0.5),rgb(170, 56, 208,0.5));
   width: max-content;
   padding: 10px;
   margin: auto;
@@ -33,6 +34,6 @@ main div {
   border-radius: 10px;
 }
 
-main div:hover, section img:hover {
-  cursor: pointer;
+canvas {
+  color:red;
 }
