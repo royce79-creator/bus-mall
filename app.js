@@ -1,9 +1,10 @@
-'use strict'
+'use strict';
 
 //Global Variables
-let allBusMall = [];
+let allBusMallItems = [];
 let clicks = 0;
-let clicksAllowed = 15;
+let clicksAllowed = 25;
+let renderList = [];
 
 let myContainer = document.querySelector('section');
 let myButton = document.querySelector('div');
@@ -11,98 +12,107 @@ let imageOne = document.querySelector('section img:first-child');
 let imageTwo = document.querySelector('section img:nth-child(2)');
 let imageThree = document.querySelector('section img:last-child');
 // let imageOne = document.getElementById('imageOne');
-imageOne.src = `img/water-can.jpg`;
-imageTwo.src = `img/banana.jpg`;
-imageThree.src = `img/bag.jpg`;
 // imageTwo.src = 'img/'
 
-function BusMall(name, fileExtension = 'jpg') {
+//Constructor Function
+function BusMallItem(name, fileExtension = 'jpg') {
   this.name = name;
   this.src = `img/${name}.${fileExtension}`;
   this.clicks = 0;
   this.views = 0;
-  allBusMall.push(this);
+  allBusMallItems.push(this);
 }
 
-new BusMall('bag');
-new BusMall('banana');
-new BusMall('bathroom');
-new BusMall('boots');
-new BusMall('breakfast');
-new BusMall('bubblegum');
-new BusMall('chair');
-new BusMall('cthulu');
-new BusMall('dog-duck');
-new BusMall('dragon');
-new BusMall('pen');
-new BusMall('pet-sweep');
-new BusMall('scissors')
-new BusMall('shark');
-new BusMall('sweep', 'png');
-new BusMall('tauntaun');
-new BusMall('unicorn');
-new BusMall('water-can');
-new BusMall('wine-glass');
-
-// // imageOne.src = allGoats[0].src;
-// // imageTwo.src = allGoats[1].src;
-// // allGoats[0].views++;
+new BusMallItem('bag');
+new BusMallItem('banana');
+new BusMallItem('bathroom');
+new BusMallItem('boots');
+new BusMallItem('breakfast');
+new BusMallItem('bubblegum');
+new BusMallItem('chair');
+new BusMallItem('cthulhu');
+new BusMallItem('dog-duck');
+new BusMallItem('dragon');
+new BusMallItem('pen');
+new BusMallItem('pet-sweep');
+new BusMallItem('scissors')
+new BusMallItem('shark');
+new BusMallItem('sweep', 'png');
+new BusMallItem('tauntaun');
+new BusMallItem('unicorn');
+new BusMallItem('water-can');
+new BusMallItem('wine-glass');
 
 function selectRandomBusMallIndex() {
-  return Math.floor(Math.random() * allBusMall.length);
+  return Math.floor(Math.random() * allBusMallItems.length);
 }
 
-function renderBusMall() {
-  let busMallOne = selectRandomBusMallIndex();
-  let busMallTwo = selectRandomBusMallIndex();
-  let busMallThree = selectRandomBusMallIndex();
-  while (busMallOne === busMallTwo) {
-    busMallTwo = selectRandomBusMallIndex();
+function renderRandomBusMallItems() {
+  while (renderList.length < 4) {
+    let uniqueIndex = selectRandomBusMallIndex();
+    if (!renderList.includes(uniqueIndex)) {
+      renderList.push(uniqueIndex);
+    }
   }
-  while (busMallThree === busMallOne) {
-    busMallOne = selectRandomBusMallIndex();
-  };
-//   imageOne.src = allBusMall[busMallOne].src;
-//   imageOne.alt = allBusMall[busMallOne].name;
-//   imageOne.style.width = '50px'; 
-//   allBusMall[busMallOne].view++;
+  let busOne = renderList.pop();
+  let busTwo = renderList.pop();
+  let busThree = renderList.pop();
+  // console.log(allBusMallItems[imageOne].src);
 
-//   imageTwo.src = allBusMall[busMallTwo].src;
-//   imageTwo.alt = allBusMall[busMallTwo].name;
-//   allBusMall[busMallTwo].view++;
+  imageOne.src = allBusMallItems[busOne].src;
+  imageOne.alt = allBusMallItems[busOne].name;
+  allBusMallItems[busOne].views++;
 
-// }
+  imageTwo.src = allBusMallItems[busTwo].src;
+  imageTwo.alt = allBusMallItems[busTwo].name;
+  allBusMallItems[busTwo].views++;
 
-// function handleBusMallClick(event){
-//   if(event.target === myContainer){
-//     alert('Click on an image please');
-//   }
-//   clicks++;
-//   let clickedBusMall = event.target.alt
-//   for (let i = 0; i < allBusMall.length; i++)
-//     if (clickedBusMall === allBusMall[i].name) {
-//       allBusMall[i].clicks++;
-//     }
-// }
-// renderBusMall();
+  imageThree.src = allBusMallItems[busThree].src;
+  imageThree.alt = allBusMallItems[busThree].name;
+  allBusMallItems[busThree].views++;
+}
 
-// if (clicks === clicksAllowed) {
-//   myContainer.removeEventListener('click', handleBusMallClick);
-// }
+function handleBusMallClick(event) {
+  if (event.target === myContainer) {
+    alert('Click on an image please');
+  }
 
-// function renderResults(){
-//   let ul = document.querySelector('ul');
-//   for(let i = 0; i < allBusMall.length; i++) {
-//     let li = document.createElement('li').textContent = `${allBusMall[i].name} had ${allBusMall[i].views} views and was clicked ${allBusMall[i].clicks} times.`
-//     appendChild
-//   }
-// }
+  clicks++;
+  let clickedImages = event.target.alt;
+  for (let i = 0; i < allBusMallItems.length; i++) {
+    if (clickedImages === allBusMallItems[i].name) {
+      allBusMallItems[i].clicks++;
+      console.log(clickedImages);
+      console.log(allBusMallItems[i].name);
+    }
+  }
+  renderRandomBusMallItems();
 
-// function handleButtonClick(event) {
-//   if(clicks === clicksAllowed){
-//     renderResults();
-//   }
-// }
-// renderRandomBusMall();
+  if (clicks === clicksAllowed) {
+    myContainer.removeEventListener('click', handleBusMallClick);
+  }
+}
 
-// myContainer.addEventListener('click', handleBusMallClick);
+  function renderResults() {
+    let ul = document.querySelector('ul');
+    for (let i = 0; i < allBusMallItems.length; i++) {
+      let li = document.createElement('li');
+      li.textContent = `${allBusMallItems[i].name} had ${allBusMallItems[i].views} views and was clicked ${allBusMallItems[i].clicks} times.`;
+      ul.appendChild(li);
+    }
+    renderResults
+  }
+  function handleButtonClick(event) {
+    for (let i = 0; i < allBusMallItems.length; i++) {
+      if (allBusMallItems[i].name === event.target.alt) {
+        allBusMallItems[i].clicks = allBusMallItems[i].clicks + 1;
+      }
+    }
+
+    renderRandomBusMallItems();
+  }
+  
+  renderRandomBusMallItems();
+  
+  myContainer.addEventListener('click', handleBusMallClick);
+  myButton.addEventListener('click', renderResults);
