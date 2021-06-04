@@ -7,7 +7,6 @@ let clicksAllowed = 25;
 let renderList = [];
 
 let myContainer = document.querySelector('section');
-let myButton = document.querySelector('div');
 let imageOne = document.querySelector('section img:first-child');
 let imageTwo = document.querySelector('section img:nth-child(2)');
 let imageThree = document.querySelector('section img:last-child');
@@ -89,30 +88,68 @@ function handleBusMallClick(event) {
   renderRandomBusMallItems();
 
   if (clicks === clicksAllowed) {
+    renderChart();
     myContainer.removeEventListener('click', handleBusMallClick);
   }
-}
+}  
 
-  function renderResults() {
-    let ul = document.querySelector('ul');
+function renderChart() {
+    let clicksArray = [];
+    let viewsArray = [];
+    let namesArray = [];
+
     for (let i = 0; i < allBusMallItems.length; i++) {
-      let li = document.createElement('li');
-      li.textContent = `${allBusMallItems[i].name} had ${allBusMallItems[i].views} views and was clicked ${allBusMallItems[i].clicks} times.`;
-      ul.appendChild(li);
+      clicksArray.push(allBusMallItems[i].clicks);
+      viewsArray.push(allBusMallItems[i].views);
+      namesArray.push(allBusMallItems[i].name);
     }
-    renderResults
-  }
-  function handleButtonClick(event) {
-    for (let i = 0; i < allBusMallItems.length; i++) {
-      if (allBusMallItems[i].name === event.target.alt) {
-        allBusMallItems[i].clicks = allBusMallItems[i].clicks + 1;
+    console.log(`${clicksArray}
+      ${viewsArray}
+      ${namesArray}`);
+
+    let ctx = document.getElementById('myChart').getContext('2d');
+    new Chart (ctx, {
+      type: 'bar',
+      data: {
+        labels: namesArray,
+        datasets: [{
+          label: '# of Clicks',
+          data: clicksArray,
+          backgroundColor: 'rgba(153, 102, 255, 0.2)',
+          borderColor: 'rgba(153, 102, 255, 1)',
+          borderWidth: 1
+        },
+        {
+          label: '# of Views',
+          data: viewsArray,
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 159, 64, 0.2)'
+          ],
+          borderColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)'
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
       }
-    }
+});
+}
+renderRandomBusMallItems();
 
-    renderRandomBusMallItems();
-  }
-  
-  renderRandomBusMallItems();
-  
-  myContainer.addEventListener('click', handleBusMallClick);
-  myButton.addEventListener('click', renderResults);
+myContainer.addEventListener('click', handleBusMallClick);
