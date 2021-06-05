@@ -21,7 +21,15 @@ function BusMallItem(name, fileExtension = 'jpg') {
   this.views = 0;
   allBusMallItems.push(this);
 }
+//Changes for local Storage lab. 
+let collectedImages = localStorage.getItem('products'); 
 
+if (collectedImages) {
+  let coolImages = JSON.parse(collectedImages);
+  allBusMallItems = coolImages;
+}
+
+else {
 new BusMallItem('bag');
 new BusMallItem('banana');
 new BusMallItem('bathroom');
@@ -41,6 +49,7 @@ new BusMallItem('tauntaun');
 new BusMallItem('unicorn');
 new BusMallItem('water-can');
 new BusMallItem('wine-glass');
+}
 
 function selectRandomBusMallIndex() {
   return Math.floor(Math.random() * allBusMallItems.length);
@@ -90,6 +99,9 @@ function handleBusMallClick(event) {
   if (clicks === clicksAllowed) {
     renderChart();
     myContainer.removeEventListener('click', handleBusMallClick);
+    //local storage storing the data into JSON file. 
+    let tempStorage = JSON.stringify(allBusMallItems);
+    localStorage.setItem('products', tempStorage);
   }
 }  
 
